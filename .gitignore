@@ -12,6 +12,9 @@ local.properties
 .settings/
 .loadpath
 
+# Ignore OSX specific thumbs.db/.ds_store junk
+.DS_Store
+
 # Eclipse Core
 .project
 
