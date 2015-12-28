@@ -57,6 +57,24 @@ public class Challenge001 {
 				}
 			}
 		}
+		
+		// Get Reddit username
+		boolean redditUsernameValidated = false;
+		while (!redditUsernameValidated) {
+			System.out.println("What is your Reddit username? (e.g. Fauxecke)");
+			try {
+				redditUsername = reader.readLine();
+			} catch (Exception ex) {
+				System.out.printf("There was a problem getting your Reddit username from the console." + 
+								  "\nStack Trace:%s\n", ex.getMessage());
+				System.out.println("The program will now exit.");
+				System.exit(0);
+			} finally {
+				if (!redditUsername.isEmpty()) {
+					redditUsernameValidated = true;
+				}
+			}
+		}
 	}
 
 }
