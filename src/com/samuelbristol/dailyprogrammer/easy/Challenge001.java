@@ -33,7 +33,8 @@ public class Challenge001 {
 				name = reader.readLine();
 			} catch (Exception ex) {
 				System.out.printf("There was a problem getting your name from the console." + 
-					"There may be a problem with the console.\nStack Trace:\n%s\n", ex.getMessage());
+								  "There may be a problem with the console." + 
+								  "\nStack Trace:\n%s\n", ex.getMessage());
 				System.out.println("The program will now exit.");
 				System.exit(0);
 			} finally {
@@ -75,6 +76,11 @@ public class Challenge001 {
 				}
 			}
 		}
+		
+		// Print information to console
+		System.out.printf("Your name is %s, you are %d years old, and your username is %s.\n" +
+						  "Thank you for using this program. The program will now exit.", 
+						  name, age, redditUsername);
 	}
 
 }
