@@ -81,6 +81,8 @@ public class Challenge001 {
 		System.out.printf("Your name is %s, you are %d years old, and your username is %s.\n" +
 						  "Thank you for using this program. The program will now exit.", 
 						  name, age, redditUsername);
+		
+		//TODO Print line to file
 	}
 
 }
