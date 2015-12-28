@@ -42,6 +42,21 @@ public class Challenge001 {
 				}
 			}
 		}
+		
+		// Get age
+		boolean ageValidated = false;
+		while (!ageValidated) {
+			System.out.println("What is your age? (e.g. 25)");
+			try {
+				age = Integer.parseInt(reader.readLine());
+			} catch (Exception ex) {
+				System.out.println("Please enter a positive integer and try again.");
+			} finally {
+				if (age >= 1) {
+					ageValidated = true;
+				}
+			}
+		}
 	}
 
 }
