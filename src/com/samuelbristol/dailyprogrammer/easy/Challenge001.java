@@ -24,7 +24,24 @@ public class Challenge001 {
 
 		// Create a buffered reader for keyboard console input
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
+		
+		// Get name
+		boolean nameValidated = false;
+		while (!nameValidated) {
+			System.out.println("What is your name? (e.g. John Smith)");
+			try {
+				name = reader.readLine();
+			} catch (Exception ex) {
+				System.out.printf("There was a problem getting your name from the console." + 
+					"There may be a problem with the console.\nStack Trace:\n%s\n", ex.getMessage());
+				System.out.println("The program will now exit.");
+				System.exit(0);
+			} finally {
+				if (!name.isEmpty()) {
+					nameValidated = true;
+				}
+			}
+		}
 	}
 
 }
