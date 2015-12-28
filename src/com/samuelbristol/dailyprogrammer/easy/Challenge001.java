@@ -1,5 +1,8 @@
 package com.samuelbristol.dailyprogrammer.easy;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /**
  * @author samuelbristol
  * Challenge 1 - Easy - Reddit Daily Programmer
@@ -14,7 +17,13 @@ package com.samuelbristol.dailyprogrammer.easy;
 public class Challenge001 {
 
 	public static void main(String[] args) {
-		
+		// Variables for name, age, reddit username
+		String name = "";
+		int age = 0;
+		String redditUsername = "";
+
+		// Create a buffered reader for keyboard console input
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 	}
 
