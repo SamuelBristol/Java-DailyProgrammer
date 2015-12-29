@@ -19,7 +19,11 @@ import java.nio.file.StandardOpenOption;
  * 		Have it tell them the information back, in the format:
  * 		your name is (blank), you are (blank) years old, and your username is (blank).
  * 		For extra credit, have the program log this information in a file to be 
- * 		accessed later. */
+ * 		accessed later. 
+ * 
+ * USAGE: Run the program from your console. Challenge001_output.txt will appear in the
+ * 		  working directory.
+ * */
 
 public class Challenge001 {
 
