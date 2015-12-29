@@ -1,7 +1,20 @@
 package com.samuelbristol.dailyprogrammer.easy;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.PosixFileAttributes;
+import java.util.Arrays;
 
 /**
  * @author samuelbristol
@@ -77,12 +90,29 @@ public class Challenge001 {
 			}
 		}
 		
-		// Print information to console
-		System.out.printf("Your name is %s, you are %d years old, and your username is %s.\n" +
-						  "Thank you for using this program. The program will now exit.", 
-						  name, age, redditUsername);
-		
-		//TODO Print line to file
+		// Print information to console and output to file
+		String message = String.format("Your name is %s, you are %d years old, and your username is %s.", name, age, redditUsername);
+		try {
+			writeToFile(message, "challenge001_output.txt", Charset.forName("UTF-8"));
+		} catch (IOException ex) {
+			System.out.println("A fatal error occurred. Exiting...");
+			ex.printStackTrace();
+			System.exit(0);
+		} finally {
+			System.out.println("Thank you for using this program. Exiting...");
+		}	
 	}
 
+	public static void writeToFile(String message, String fileName, Charset charset) throws IOException{
+		System.out.println("Writing data to file...");
+		Path filePath = Paths.get(fileName);
+		try {
+			Files.createFile(filePath);
+			Files.write(filePath, message.getBytes(charset), StandardOpenOption.WRITE);
+		} catch (FileAlreadyExistsException ex) {
+			System.out.printf("%s already exists. Deleting file...\n", fileName);
+			Files.delete(filePath);
+			writeToFile(message, fileName, charset);
+		}
+	}
 }
