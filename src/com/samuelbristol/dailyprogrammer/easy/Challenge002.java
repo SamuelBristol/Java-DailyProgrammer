@@ -1,5 +1,9 @@
 package com.samuelbristol.dailyprogrammer.easy;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  * @author samuelbristol
  * Challenge 2 - Easy - Reddit Daily Programmer
@@ -19,8 +23,59 @@ package com.samuelbristol.dailyprogrammer.easy;
 public class Challenge002 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		System.out.print("Hours and Wage Calculator\n\n");
+		
+		System.out.printf("%s\n%s\n%s\n%s\n",
+						  "1) Calculate Yearly Income",
+						  "2) Calculate Weekly Income",
+						  "3) Calculate BiWeekly Income",
+						  "4) Exit");
+		
+		// Create a BufferedReader to get console input
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+		// Get selection
+		int selection = -1;
+		boolean validSelection = false;
+		
+		while (!validSelection) {
+			try {
+				System.out.println("Please enter your selection (1-4):");
+				selection = Integer.parseInt(reader.readLine());
+			} catch (NumberFormatException ex) {
+				System.out.println("Please enter an integer that corresponds with " + 
+								   "an available selection and try again.");
+			} catch (IOException ex) {
+				ex.printStackTrace();
+				System.out.println("Program crashed. Oops!");
+				System.exit(0);
+			}		
+			finally {
+				if (selection > 0 && selection < 5) {
+					validSelection = true;
+				}
+			}
+		}
+		
+		switch (selection) {
+			case 1:
+				//TODO Calculate Yearly Income
+				break;
+			case 2:
+				//TODO Calculate Weekly Income
+				break;
+			case 3:
+				//TODO Calculate BiWeekly Income
+				break;
+			case 4:
+				//TODO Exit
+				System.out.println("Thank you. Exiting...");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Something strange happened.");
+				break;
+		}
 	}
 
 }
