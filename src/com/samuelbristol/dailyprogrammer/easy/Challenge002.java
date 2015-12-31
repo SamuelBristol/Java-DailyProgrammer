@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import com.samuelbristol.console.ConsoleReader;
-import com.samuelbristol.math.Range;
+import com.samuelbristol.numbers.Range;
 
 /**
  * @author samuelbristol
@@ -30,10 +30,11 @@ public class Challenge002 {
 	public static void main(String[] args) {
 		System.out.print("Hours and Wage Calculator\n\n");
 		
-		System.out.printf("%s\n%s\n%s\n%s\n",
+		System.out.printf("%s\n%s\n%s\n%s\n%s\n",
 						  "1) Calculate Yearly Income",
 						  "2) Calculate Weekly Income",
 						  "3) Calculate BiWeekly Income",
+						  "4) Calculate Hourly Pay by Salary",
 						  "0) Exit");
 		
 		// Create an autocloseable ConsoleReader to get console input

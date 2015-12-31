@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.samuelbristol.math;
+package com.samuelbristol.numbers;
 
 /**
  * @author samuelbristol
