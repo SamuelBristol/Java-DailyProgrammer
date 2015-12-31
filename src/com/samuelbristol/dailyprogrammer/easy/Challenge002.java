@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import com.samuelbristol.console.ConsoleReader;
 import com.samuelbristol.math.Range;
 
 /**
@@ -35,51 +36,56 @@ public class Challenge002 {
 						  "3) Calculate BiWeekly Income",
 						  "0) Exit");
 		
-		// Create a BufferedReader to get console input
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		// Create an autocloseable ConsoleReader to get console input
+		try (ConsoleReader reader = new ConsoleReader(new InputStreamReader(System.in))) {
 
-		// Get selection
-		int selection = -1;
-		boolean validSelection = false;
-		while (!validSelection) {
-			selection = getIntFromConsole(reader, "Please enter your selection (1-4):");
-			validSelection = Range.intInRangeExclusive(selection, 0, 5);
-			if (selection == 0) {
-				System.out.println("Thank you. Exiting...");
-				System.exit(0);
+			// Get selection
+			int selection = -1;
+			boolean validSelection = false;
+			while (!validSelection) {
+				selection = reader.getValidInteger("Please enter your selection (1-4):");
+				validSelection = Range.intInRangeExclusive(selection, 0, 5);
+				if (selection == 0) {
+					System.out.println("Thank you. Exiting...");
+					System.exit(0);
+				}
 			}
-		}
-		
-		// Get hourly wage and hours per week
-		double hourlyWage = getDoubleFromConsole(reader, "Please enter your hourly wage (e.g. 15.00):");
-		double hoursWorkedWeekly = getDoubleFromConsole(reader, "Please enter the number of hours worked " + 
-				"weekly (e.g. 40.00):");
-		
-		// Handle each menu choice
-		double totalWages = 0.0;
-		switch (selection) {
-			case 1:
-				// Calculate Yearly Income
-				totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 52);
-				
-				displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "yearly");
-				break;
-			case 2:
-				// Calculate Weekly Income
-				totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 1);
-				
-				displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "weekly");
-				break;
-			case 3:
-				// Calculate BiWeekly Income
-				totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 2);
-				
-				displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "bi-weekly");
-				break;
-			default:
-				// Input is clamped, this should never be reached.
-				System.out.println("Something strange happened.");
-				break;
+			
+			// Get hourly wage and hours per week
+			double hourlyWage = reader.getValidDouble("Please enter your hourly wage (e.g. 15.00):");
+			double hoursWorkedWeekly = reader.getValidDouble("Please enter the number of hours worked " + 
+					"weekly (e.g. 40.00):");
+			
+			// Handle each menu choice
+			double totalWages = 0.0;
+			switch (selection) {
+				case 1:
+					// Calculate Yearly Income
+					totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 52);
+					
+					displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "yearly");
+					break;
+				case 2:
+					// Calculate Weekly Income
+					totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 1);
+					
+					displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "weekly");
+					break;
+				case 3:
+					// Calculate BiWeekly Income
+					totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 2);
+					
+					displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "bi-weekly");
+					break;
+				default:
+					// Input is clamped, this should never be reached.
+					System.out.println("Something strange happened.");
+					break;
+			}
+			
+		} catch (IOException ex) {
+			System.out.println("Could not close some resources. Exiting...");
+			System.exit(0);
 		}
 	}
 	
@@ -99,51 +105,5 @@ public class Challenge002 {
 
 	public static double calculateIncome(double hourlyWage, double hoursWorkedWeekly, int howManyWeeks) {
 		return hourlyWage * hoursWorkedWeekly * howManyWeeks;
-	}
-	
-	public static int getIntFromConsole(BufferedReader reader) {
-		int value = 0;
-		
-		boolean validValue = false;
-		while (!validValue) {
-			try {
-				value = Integer.parseInt(reader.readLine());
-				validValue = true;
-			} catch (NumberFormatException ex) {
-				System.out.println("Please enter a valid integer value and try again.");
-			} catch (IOException ex) {
-				System.out.println("Please enter a valid integer value and try again.");
-			}
-		}
-		
-		return value;
-	}
-	
-	public static int getIntFromConsole(BufferedReader reader, String message) {
-		System.out.println(message);
-		return getIntFromConsole(reader);
-	}
-	
-	public static double getDoubleFromConsole(BufferedReader reader) {
-		double value = 0.0;
-		
-		boolean validValue = false;
-		while (!validValue) {
-			try {
-				value = Double.parseDouble(reader.readLine());
-				validValue = true;
-			} catch (NumberFormatException ex) {
-				System.out.println("Please enter a valid decimal value and try again.");
-			} catch (IOException ex) {
-				System.out.println("Please enter a valid decimal value and try again.");
-			}
-		}
-		
-		return value;
-	}
-	
-	public static double getDoubleFromConsole(BufferedReader reader, String message) {
-		System.out.println(message);
-		return getDoubleFromConsole(reader);
 	}
 }
