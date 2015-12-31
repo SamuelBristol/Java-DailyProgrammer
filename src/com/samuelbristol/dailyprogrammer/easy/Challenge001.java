@@ -41,19 +41,7 @@ public class Challenge001 {
 			name = reader.getValidString("What is your name? (e.g. John Smith)");
 			
 			// Get age
-			boolean ageValidated = false;
-			while (!ageValidated) {
-				System.out.println("What is your age? (e.g. 25)");
-				try {
-					age = Integer.parseInt(reader.readLine());
-				} catch (Exception ex) {
-					System.out.println("Please enter a positive integer and try again.");
-				} finally {
-					if (age >= 1) {
-						ageValidated = true;
-					}
-				}
-			}
+			age = reader.getValidInteger("What is your age? (e.g. 25)");
 			
 			// Get Reddit username
 			boolean redditUsernameValidated = false;
