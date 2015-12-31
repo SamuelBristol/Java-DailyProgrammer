@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import com.samuelbristol.math.Range;
+
 /**
  * @author samuelbristol
  * Challenge 2 - Easy - Reddit Daily Programmer
@@ -41,7 +43,7 @@ public class Challenge002 {
 		boolean validSelection = false;
 		while (!validSelection) {
 			selection = getIntFromConsole(reader, "Please enter your selection (1-4):");
-			validSelection = intInRangeExclusive(selection, 0, 5);
+			validSelection = Range.intInRangeExclusive(selection, 0, 5);
 			if (selection == 0) {
 				System.out.println("Thank you. Exiting...");
 				System.exit(0);
@@ -97,20 +99,6 @@ public class Challenge002 {
 
 	public static double calculateIncome(double hourlyWage, double hoursWorkedWeekly, int howManyWeeks) {
 		return hourlyWage * hoursWorkedWeekly * howManyWeeks;
-	}
-	
-	public static boolean intInRangeExclusive(int target, int first, int second) {
-		int lower = Math.min(first, second);
-		int higher = Math.max(first, second);
-		boolean value;
-		
-		if (target > lower && target < higher) {
-			value = true;
-		} else {
-			value = false;
-		}
-		
-		return value;
 	}
 	
 	public static int getIntFromConsole(BufferedReader reader) {
