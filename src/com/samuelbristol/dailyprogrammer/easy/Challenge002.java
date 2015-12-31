@@ -3,6 +3,8 @@ package com.samuelbristol.dailyprogrammer.easy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * @author samuelbristol
@@ -29,7 +31,7 @@ public class Challenge002 {
 						  "1) Calculate Yearly Income",
 						  "2) Calculate Weekly Income",
 						  "3) Calculate BiWeekly Income",
-						  "4) Exit");
+						  "0) Exit");
 		
 		// Create a BufferedReader to get console input
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -37,45 +39,123 @@ public class Challenge002 {
 		// Get selection
 		int selection = -1;
 		boolean validSelection = false;
-		
 		while (!validSelection) {
-			try {
-				System.out.println("Please enter your selection (1-4):");
-				selection = Integer.parseInt(reader.readLine());
-			} catch (NumberFormatException ex) {
-				System.out.println("Please enter an integer that corresponds with " + 
-								   "an available selection and try again.");
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				System.out.println("Program crashed. Oops!");
+			selection = getIntFromConsole(reader, "Please enter your selection (1-4):");
+			validSelection = intInRangeExclusive(selection, 0, 5);
+			if (selection == 0) {
+				System.out.println("Thank you. Exiting...");
 				System.exit(0);
-			}		
-			finally {
-				if (selection > 0 && selection < 5) {
-					validSelection = true;
-				}
 			}
 		}
 		
+		// Get hourly wage and hours per week
+		double hourlyWage = getDoubleFromConsole(reader, "Please enter your hourly wage (e.g. 15.00):");
+		double hoursWorkedWeekly = getDoubleFromConsole(reader, "Please enter the number of hours worked " + 
+				"weekly (e.g. 40.00):");
+		
+		// Handle each menu choice
+		double totalWages = 0.0;
 		switch (selection) {
 			case 1:
-				//TODO Calculate Yearly Income
+				// Calculate Yearly Income
+				totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 52);
+				
+				displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "yearly");
 				break;
 			case 2:
-				//TODO Calculate Weekly Income
+				// Calculate Weekly Income
+				totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 1);
+				
+				displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "weekly");
 				break;
 			case 3:
-				//TODO Calculate BiWeekly Income
-				break;
-			case 4:
-				//TODO Exit
-				System.out.println("Thank you. Exiting...");
-				System.exit(0);
+				// Calculate BiWeekly Income
+				totalWages = calculateIncome(hourlyWage, hoursWorkedWeekly, 2);
+				
+				displayIncome(hourlyWage, hoursWorkedWeekly, totalWages, "bi-weekly");
 				break;
 			default:
+				// Input is clamped, this should never be reached.
 				System.out.println("Something strange happened.");
 				break;
 		}
 	}
+	
+	private static void displayIncome(double hourlyWage, double hoursWorkedWeekly, double totalWages, String wageType) {
+		NumberFormat decimalFormatter = DecimalFormat.getNumberInstance();
+		NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+		
+		String message = String.format(
+				"At %s/hr, %s hrs/wk, you make %s %s.",
+				currencyFormatter.format(hourlyWage),
+				decimalFormatter.format(hoursWorkedWeekly),
+				currencyFormatter.format(totalWages),
+				wageType);
+		
+		System.out.println(message);
+	}
 
+	public static double calculateIncome(double hourlyWage, double hoursWorkedWeekly, int howManyWeeks) {
+		return hourlyWage * hoursWorkedWeekly * howManyWeeks;
+	}
+	
+	public static boolean intInRangeExclusive(int target, int first, int second) {
+		int lower = Math.min(first, second);
+		int higher = Math.max(first, second);
+		boolean value;
+		
+		if (target > lower && target < higher) {
+			value = true;
+		} else {
+			value = false;
+		}
+		
+		return value;
+	}
+	
+	public static int getIntFromConsole(BufferedReader reader) {
+		int value = 0;
+		
+		boolean validValue = false;
+		while (!validValue) {
+			try {
+				value = Integer.parseInt(reader.readLine());
+				validValue = true;
+			} catch (NumberFormatException ex) {
+				System.out.println("Please enter a valid integer value and try again.");
+			} catch (IOException ex) {
+				System.out.println("Please enter a valid integer value and try again.");
+			}
+		}
+		
+		return value;
+	}
+	
+	public static int getIntFromConsole(BufferedReader reader, String message) {
+		System.out.println(message);
+		return getIntFromConsole(reader);
+	}
+	
+	public static double getDoubleFromConsole(BufferedReader reader) {
+		double value = 0.0;
+		
+		boolean validValue = false;
+		while (!validValue) {
+			try {
+				value = Double.parseDouble(reader.readLine());
+				validValue = true;
+			} catch (NumberFormatException ex) {
+				System.out.println("Please enter a valid decimal value and try again.");
+			} catch (IOException ex) {
+				System.out.println("Please enter a valid decimal value and try again.");
+			}
+		}
+		
+		return value;
+	}
+	
+	public static double getDoubleFromConsole(BufferedReader reader, String message) {
+		System.out.println(message);
+		return getDoubleFromConsole(reader);
+	}
 }
