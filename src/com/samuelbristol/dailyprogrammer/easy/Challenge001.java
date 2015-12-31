@@ -1,6 +1,5 @@
 package com.samuelbristol.dailyprogrammer.easy;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -9,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+
+import com.samuelbristol.console.ConsoleReader;
 
 /**
  * @author samuelbristol
@@ -34,71 +35,59 @@ public class Challenge001 {
 		String redditUsername = "";
 
 		// Create a buffered reader for keyboard console input
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		try (ConsoleReader reader = new ConsoleReader(new InputStreamReader(System.in))) {
 		
-		// Get name
-		boolean nameValidated = false;
-		while (!nameValidated) {
-			System.out.println("What is your name? (e.g. John Smith)");
+			// Get name
+			name = reader.getValidString("What is your name? (e.g. John Smith)");
+			
+			// Get age
+			boolean ageValidated = false;
+			while (!ageValidated) {
+				System.out.println("What is your age? (e.g. 25)");
+				try {
+					age = Integer.parseInt(reader.readLine());
+				} catch (Exception ex) {
+					System.out.println("Please enter a positive integer and try again.");
+				} finally {
+					if (age >= 1) {
+						ageValidated = true;
+					}
+				}
+			}
+			
+			// Get Reddit username
+			boolean redditUsernameValidated = false;
+			while (!redditUsernameValidated) {
+				System.out.println("What is your Reddit username? (e.g. Fauxecke)");
+				try {
+					redditUsername = reader.readLine();
+				} catch (Exception ex) {
+					System.out.printf("There was a problem getting your Reddit username from the console." + 
+									  "\nStack Trace:%s\n", ex.getMessage());
+					System.out.println("The program will now exit.");
+					System.exit(0);
+				} finally {
+					if (!redditUsername.isEmpty()) {
+						redditUsernameValidated = true;
+					}
+				}
+			}
+			
+			// Print information to console and output to file
+			String message = String.format("Your name is %s, you are %d years old, and your username is %s.", name, age, redditUsername);
 			try {
-				name = reader.readLine();
-			} catch (Exception ex) {
-				System.out.println("There was a problem getting your name from the console." + 
-								  "\nThere may be a problem with the console.");
-				System.out.println("The program will now exit.");
+				writeToFile(message, "challenge001_output.txt", Charset.forName("UTF-8"));
+			} catch (IOException ex) {
+				System.out.println("A fatal error occurred. Exiting...");
 				ex.printStackTrace();
 				System.exit(0);
 			} finally {
-				if (!name.isEmpty()) {
-					nameValidated = true;
-				}
+				System.out.println("Thank you for using this program. Exiting...");
 			}
-		}
-		
-		// Get age
-		boolean ageValidated = false;
-		while (!ageValidated) {
-			System.out.println("What is your age? (e.g. 25)");
-			try {
-				age = Integer.parseInt(reader.readLine());
-			} catch (Exception ex) {
-				System.out.println("Please enter a positive integer and try again.");
-			} finally {
-				if (age >= 1) {
-					ageValidated = true;
-				}
-			}
-		}
-		
-		// Get Reddit username
-		boolean redditUsernameValidated = false;
-		while (!redditUsernameValidated) {
-			System.out.println("What is your Reddit username? (e.g. Fauxecke)");
-			try {
-				redditUsername = reader.readLine();
-			} catch (Exception ex) {
-				System.out.printf("There was a problem getting your Reddit username from the console." + 
-								  "\nStack Trace:%s\n", ex.getMessage());
-				System.out.println("The program will now exit.");
-				System.exit(0);
-			} finally {
-				if (!redditUsername.isEmpty()) {
-					redditUsernameValidated = true;
-				}
-			}
-		}
-		
-		// Print information to console and output to file
-		String message = String.format("Your name is %s, you are %d years old, and your username is %s.", name, age, redditUsername);
-		try {
-			writeToFile(message, "challenge001_output.txt", Charset.forName("UTF-8"));
 		} catch (IOException ex) {
-			System.out.println("A fatal error occurred. Exiting...");
-			ex.printStackTrace();
+			System.out.println("Could not close some resources. Exiting...");
 			System.exit(0);
-		} finally {
-			System.out.println("Thank you for using this program. Exiting...");
-		}	
+		}
 	}
 
 	public static void writeToFile(String message, String fileName, Charset charset) throws IOException{

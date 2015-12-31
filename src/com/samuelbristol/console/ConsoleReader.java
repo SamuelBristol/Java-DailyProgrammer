@@ -16,7 +16,32 @@ public class ConsoleReader extends BufferedReader {
 	public ConsoleReader(Reader in) {
 		super(in);
 	}
-
+	
+	public String getValidString() {
+		String value = "";
+		
+		boolean validValue = false;
+		while (!validValue) {
+			try {
+				value = this.readLine();
+				if (!value.isEmpty() && value != null) {
+					validValue = true;
+				} else {
+					throw new IOException("Please enter a valid valud and try again.");
+				}
+			} catch (IOException ex) {
+				System.out.println(ex.getMessage());
+			}
+		}
+		
+		return value;
+	}
+	
+	public String getValidString(String message) {
+		System.out.println(message);
+		return getValidString();
+	}
+	
 	public int getValidInteger() {
 		int value = 0;
 		
