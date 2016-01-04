@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.samuelbristol.dailyprogrammer.easy;
 
 /**
@@ -44,7 +41,7 @@ public class Challenge003 {
 		return chars;
 	}
 	
-	public static char[] encode (char[] message, char[] chars, int shift) {
+	public static char[] encode(char[] message, char[] chars, int shift) {
 		// encode the message with the shift amount
 		String encodedMessage = "";
 		for (int i = 0; i < message.length; i++) {
@@ -55,7 +52,7 @@ public class Challenge003 {
 		return encodedMessage.toCharArray();
 	}
 	
-	public static char[] decode (char[] message, char[] chars, int shift) {
+	public static char[] decode(char[] message, char[] chars, int shift) {
 		// encode the message with the shift amount
 		String decodedMessage = "";
 		for (int i = 0; i < message.length; i++) {
