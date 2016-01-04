@@ -1,5 +1,7 @@
 package com.samuelbristol.dailyprogrammer.easy;
 
+import com.samuelbristol.crypto.Cipher;
+import com.samuelbristol.crypto.ShiftCipher;
 import com.samuelbristol.strings.Strings;
 
 /**
@@ -16,37 +18,15 @@ import com.samuelbristol.strings.Strings;
  * */
 public class Challenge003 {
 	public static void main(String[] args) {
-		// Get the common available characters to work with
-		char chars[] = Strings.getPrintableAsciiCharacters();
 		
 		char message[] = "Some say the world will end in fire".toCharArray();
 		System.out.println("Message: " + new String(message));
 		
-		// Encode the message with shift 3
-		char encodedMessage[] = encode(message, chars, 3);
+		// Encode the message using a Shift/Rotation Cipher
+		Cipher cipher = new ShiftCipher(Strings.getPrintableAsciiCharacters(), 3);
+		char encodedMessage[] = cipher.encode(message);
+		char decodedMessage[] = cipher.decode(encodedMessage);
 		System.out.println("Encoded message: " + new String(encodedMessage));
-		System.out.println("Decoded message: " + new String(decode(encodedMessage, chars, 3)));
-	}
-	
-	public static char[] encode(char[] message, char[] chars, int shift) {
-		// encode the message with the shift amount
-		String encodedMessage = "";
-		for (int i = 0; i < message.length; i++) {
-			int newValue = ((int) message[i]) + shift % (chars.length - 1);
-			encodedMessage += (char) newValue;
-		}
-		
-		return encodedMessage.toCharArray();
-	}
-	
-	public static char[] decode(char[] message, char[] chars, int shift) {
-		// encode the message with the shift amount
-		String decodedMessage = "";
-		for (int i = 0; i < message.length; i++) {
-			int newValue = ((int) message[i]) - shift % (chars.length - 1);
-			decodedMessage += (char) newValue;
-		}
-		
-		return decodedMessage.toCharArray();
+		System.out.println("Decoded message: " + new String(decodedMessage));
 	}
 }
