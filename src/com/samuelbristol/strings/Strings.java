@@ -2,8 +2,7 @@ package com.samuelbristol.strings;
 
 /**
  * @author samuelbristol
- *	Description: A class to extend the functionality of a BufferedReader. The primary function
- * 		of this class is to get valid primitives from a Reader source.
+ *	Description: A utility class for Strings
  */
 public final class Strings {
 	
@@ -13,14 +12,38 @@ public final class Strings {
 		int firstChar = 32; // space character
 		int lastChar = 126; // ~ character
 		
-		// Properly size the char array
-		char chars[] = new char[lastChar - firstChar + 1];
-		for (int i = 0; i < chars.length; i++) {
+		char characters[] = getAscii(firstChar, lastChar);
+		
+		return characters;
+	}
+	
+	public static char[] getEnglishAlphabetUpper() {
+		int firstChar = 65; // A
+		int lastChar = 90; // Z
+		
+		char characters[] = getAscii(firstChar, lastChar);
+		
+		return characters;
+	}
+	
+	public static char[] getEnglishAlphabetLower() {
+		int firstChar = 97; // A
+		int lastChar = 122; // Z
+		
+		char characters[] = getAscii(firstChar, lastChar);
+		
+		return characters;
+	}
+	
+	private static char[] getAscii(int firstChar, int lastChar){
+		char characters[] = new char[lastChar - firstChar + 1];
+		
+		for (int i = 0; i < characters.length; i++) {
 			// Fill the char array with the appropriate characters
 			// Cast the integer to char for simplicity
-			chars[i] = (char) (i + firstChar);
+			characters[i] = (char) (i + firstChar);
 		}
 		
-		return chars;
+		return characters;
 	}
 }
