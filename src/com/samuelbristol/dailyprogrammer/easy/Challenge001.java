@@ -68,6 +68,7 @@ public class Challenge001 {
 		System.out.println("Writing data to file...");
 		Path filePath = Paths.get(fileName);
 		try {
+			Files.deleteIfExists(filePath);
 			Files.createFile(filePath);
 			Files.write(filePath, message.getBytes(charset), StandardOpenOption.WRITE);
 		} catch (FileAlreadyExistsException ex) {

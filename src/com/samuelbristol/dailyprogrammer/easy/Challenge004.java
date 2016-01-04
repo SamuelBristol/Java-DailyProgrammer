@@ -2,8 +2,13 @@ package com.samuelbristol.dailyprogrammer.easy;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Random;
 
 import com.samuelbristol.console.ConsoleReader;
+import com.samuelbristol.strings.Strings;
 
 /**
  * @author samuelbristol
@@ -21,15 +26,31 @@ public class Challenge004 {
 		System.out.println("Random Password Generator");
 		
 		try (ConsoleReader reader = new ConsoleReader(new InputStreamReader(System.in))) {
-			int numberOfPasswords = 0;
-			int passwordLength = 0;
-			numberOfPasswords = reader.getValidInteger("Please specify the number of passwords to generate:");
-			passwordLength = reader.getValidInteger("Please specify the number of characters in each password:");
+			int numberOfPasswords = reader.getValidInteger("Please specify the number of passwords to generate:");
+			int passwordLength = reader.getValidInteger("Please specify the number of characters in each password:");
 			
+			long startTime = System.currentTimeMillis();
+			StringBuilder allPasswords = new StringBuilder(numberOfPasswords);
 			for(int i = 0; i < numberOfPasswords; i++) {
-				System.out.println(createRandomPassword(passwordLength));
+				allPasswords.append(createRandomPassword(passwordLength) + "\n");
 			}
+			long stopTime = System.currentTimeMillis();
+			System.out.println("Created passwords in " + (stopTime - startTime) + "ms.");
 			
+			try {
+				startTime = System.currentTimeMillis();
+				
+				Files.deleteIfExists(Paths.get("challenge004_output.txt"));
+				Files.createFile(Paths.get("challenge004_output.txt"));
+				Files.write(Paths.get("challenge004_output.txt"), allPasswords.toString().getBytes(), StandardOpenOption.WRITE);
+				
+				stopTime = System.currentTimeMillis();
+				System.out.println("Wrote passwords in: " + (stopTime - startTime) + "ms.");
+				
+			} catch (IOException ex) {
+				System.out.println("Could not write to file \"Challenge004_output.txt\"");
+				ex.printStackTrace();				
+			}
 			
 		} catch (IOException ex) {
 			System.out.println("A fatal error has ocurred. The console may not be available. Exiting...");
@@ -40,7 +61,16 @@ public class Challenge004 {
 	}
 
 	private static String createRandomPassword(int passwordLength) {
-		return "password";
+		char characters[] = Strings.getPrintableAsciiCharacters();
+		char password[] = new char[passwordLength];
+		
+		Random random = new Random();
+		for (int i = 0; i < passwordLength; i++) {
+			char randomCharacter = characters[random.nextInt(characters.length)];
+			password[i] = randomCharacter;
+		}
+		
+		return new String(password);
 	}
 
 }
