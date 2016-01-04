@@ -1,5 +1,7 @@
 package com.samuelbristol.dailyprogrammer.easy;
 
+import com.samuelbristol.strings.Strings;
+
 /**
  * @author samuelbristol
  * Challenge 3 - Easy - Reddit Daily Programmer
@@ -15,30 +17,15 @@ package com.samuelbristol.dailyprogrammer.easy;
 public class Challenge003 {
 	public static void main(String[] args) {
 		// Get the common available characters to work with
-		char chars[] = getPrintableAsciiCharacters();
+		char chars[] = Strings.getPrintableAsciiCharacters();
 		
 		char message[] = "Some say the world will end in fire".toCharArray();
 		System.out.println("Message: " + new String(message));
 		
 		// Encode the message with shift 3
 		char encodedMessage[] = encode(message, chars, 3);
-		System.out.println("Encoded message: " + new String(encode(message, chars, 3)));
+		System.out.println("Encoded message: " + new String(encodedMessage));
 		System.out.println("Decoded message: " + new String(decode(encodedMessage, chars, 3)));
-	}
-	
-	public static char[] getPrintableAsciiCharacters() {
-		int firstChar = 32; // space character
-		int lastChar = 126; // ~ character
-		
-		// Properly size the char array
-		char chars[] = new char[lastChar - firstChar + 1];
-		for (int i = 0; i < chars.length; i++) {
-			// Fill the char array with the appropriate characters
-			// Cast the integer to char for simplicity
-			chars[i] = (char) (i + firstChar);
-		}
-		
-		return chars;
 	}
 	
 	public static char[] encode(char[] message, char[] chars, int shift) {
