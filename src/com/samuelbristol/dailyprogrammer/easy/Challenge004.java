@@ -45,7 +45,7 @@ public class Challenge004 {
 				Files.write(Paths.get("challenge004_output.txt"), allPasswords.toString().getBytes(), StandardOpenOption.WRITE);
 				
 				stopTime = System.currentTimeMillis();
-				System.out.println("Wrote passwords in: " + (stopTime - startTime) + "ms.");
+				System.out.println("Wrote passwords in " + (stopTime - startTime) + "ms.");
 				
 			} catch (IOException ex) {
 				System.out.println("Could not write to file \"Challenge004_output.txt\"");
